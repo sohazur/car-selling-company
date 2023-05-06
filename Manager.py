@@ -1,4 +1,4 @@
-import Employee
+from Employee import Employee
 
 class Manager(Employee):
     def __init__(self, name, id_number, department, job_title, basic_salary):
