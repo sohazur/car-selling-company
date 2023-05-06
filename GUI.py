@@ -2,6 +2,7 @@ import pickle
 import os
 import tkinter as tk
 from tkinter import messagebox, simpledialog
+from Salesperson import Salesperson
 
 class AddEmployeeDialog(simpledialog.Dialog):
     def body(self, master):
@@ -124,6 +125,15 @@ class Application(tk.Tk):
         add_sale_button = tk.Button(self, text="Add Sale", command=self.add_sale)
         add_sale_button.pack(fill=tk.X)
 
+        show_employee_details_button = tk.Button(self, text="Show Employee Details", command=self.show_employee_details)
+        show_employee_details_button.pack(fill=tk.X)
+
+        show_car_details_button = tk.Button(self, text="Show Car Details", command=self.show_car_details)
+        show_car_details_button.pack(fill=tk.X)
+
+        show_employee_sales_button = tk.Button(self, text="Show Employee Sales", command=self.show_employee_sales)
+        show_employee_sales_button.pack(fill=tk.X)
+
         show_salaries_button = tk.Button(self, text="Show Salaries", command=self.show_salaries)
         show_salaries_button.pack(fill=tk.X)
 
@@ -154,6 +164,39 @@ class Application(tk.Tk):
         salaries = self.sales_management.calculate_salaries()
         salary_text = "\n".join(f"{self.sales_management.employees[employee_ID].name}: ${salary:.2f}" for employee_ID, salary in salaries.items())
         messagebox.showinfo("Salaries", salary_text)
+
+    def show_employee_details(self):
+        employee_id = simpledialog.askstring("Employee Details", "Enter Employee ID:")
+        try:
+            employee = self.sales_management.employees[employee_id]
+            details = f"Name: {employee.name}\nID: {employee.id_number}\nDepartment: {employee.department}\nJob Title: {employee.job_title}\nBasic Salary: ${employee.basic_salary}"
+            messagebox.showinfo("Employee Details", details)
+        except KeyError:
+            messagebox.showerror("Error", "Invalid Employee ID")
+
+    def show_car_details(self):
+        car_id = simpledialog.askstring("Car Details", "Enter Car ID:")
+        try:
+            car = self.sales_management.cars[car_id]
+            details = f"Name: {car.name}\nID: {car.ID}\nPrice: ${car.price}\nType: {car.car_type}"
+            messagebox.showinfo("Car Details", details)
+        except KeyError:
+            messagebox.showerror("Error", "Invalid Car ID")
+
+    def show_employee_sales(self):
+        employee_id = simpledialog.askstring("Employee Sales", "Enter Employee ID:")
+        try:
+            employee = self.sales_management.employees[employee_id]
+            if isinstance(employee, Salesperson):
+                sales_details = "\n".join(f"Car: {sale.car.name} (ID: {sale.car.ID}), Sale Price: ${sale.sale_price}, Profit: ${sale.profit}" for sale in employee.sales)
+                if sales_details:
+                    messagebox.showinfo("Employee Sales", sales_details)
+                else:
+                    messagebox.showinfo("Employee Sales", "No sales found for this employee.")
+            else:
+                messagebox.showerror("Error", "Invalid Employee ID")
+        except KeyError:
+            messagebox.showerror("Error", "Invalid Employee ID")
 
     def save_data(self):
         save_data(self.sales_management)
