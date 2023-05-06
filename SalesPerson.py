@@ -1,9 +1,9 @@
 from Employee import Employee
 
 class Salesperson(Employee):
-    def __init__(self, name, id_number, department, job_title, basic_salary):
-        super().__init__(name, id_number, department, job_title, basic_salary)
-        self.sales = []
+    def __init__(self, name, id_number, department, job_title, basic_salary, age, date_of_birth,passport_details):
+            super().__init__(name, id_number, department, job_title, basic_salary, age, date_of_birth, passport_details)
+            self.sales = []
 
     def add_sale(self, sale):
         self.sales.append(sale)

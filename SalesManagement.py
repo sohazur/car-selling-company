@@ -9,11 +9,14 @@ class SalesManagement:
         self.cars = {}
         self.sales = []
 
-    def add_employee(self, name, id_number, department, job_title, basic_salary):
+    def add_employee(self, name, id_number, department, job_title, basic_salary, age, date_of_birth, passport_details):
         if job_title.lower() == "manager":
-            employee = Manager(name, id_number, department, job_title, basic_salary)
+            employee = Manager(name, id_number, department, job_title, basic_salary, age, date_of_birth, passport_details)
+        elif job_title.lower() == "salesperson":
+            employee = Salesperson(name, id_number, department, job_title, basic_salary, age, date_of_birth, passport_details)
         else:
-            employee = Salesperson(name, id_number, department, job_title, basic_salary)
+            print("Invalid job title. Employee not added.")
+            return
         self.employees[id_number] = employee
 
     def add_car(self, name, id_number, price, car_type):

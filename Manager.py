@@ -1,8 +1,8 @@
 from Employee import Employee
 
 class Manager(Employee):
-    def __init__(self, name, id_number, department, job_title, basic_salary):
-        super().__init__(name, id_number, department, job_title, basic_salary)
+    def __init__(self, name, id_number, department, job_title, basic_salary, age, date_of_birth, passport_details):
+        super().__init__(name, id_number, department, job_title, basic_salary, age, date_of_birth, passport_details)
         self.salespersons = []
 
     def assign_sale(self, sale):
