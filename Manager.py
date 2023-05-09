@@ -6,7 +6,6 @@ class Manager(Employee):
         self.salespersons = []
 
     def assign_sale(self, sale):
-        sale.manager = self
         for salesperson in self.salespersons:
             if sale.salesperson == salesperson:
                 salesperson.add_sale(sale)
