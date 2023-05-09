@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import messagebox, simpledialog
 from Salesperson import Salesperson
 
+# Add employee dialog
 class AddEmployeeDialog(simpledialog.Dialog):
     def body(self, master):
         self.title("Add Employee")
@@ -48,7 +49,7 @@ class AddEmployeeDialog(simpledialog.Dialog):
 
         self.result = (name, id, department, job_title, basic_salary, age, date_of_birth, passport_details)
         
-
+# Add car dialog
 class AddCarDialog(simpledialog.Dialog):
     def body(self, master):
         self.title("Add Car")
@@ -77,7 +78,7 @@ class AddCarDialog(simpledialog.Dialog):
         car_type = self.type_entry.get()
         self.result = (name, id, price, car_type)
         
-
+# Add sale dialog
 class AddSaleDialog(simpledialog.Dialog):
     def body(self, master):
         self.title("Add Sale")
@@ -101,7 +102,8 @@ class AddSaleDialog(simpledialog.Dialog):
         car_id = self.car_id_entry.get()
         sale_price = int(self.sale_price_entry.get())
         self.result = (employee_id, car_id, sale_price, None)
-        
+
+# modify employee dialog     
 class ModifyEmployeeDialog(simpledialog.Dialog):
     def body(self, master):
         self.title("Modify Employee")
@@ -119,7 +121,7 @@ class ModifyEmployeeDialog(simpledialog.Dialog):
 
         self.result = id_number
 
-
+# delete employee dialog
 class DeleteEmployeeDialog(simpledialog.Dialog):
     def body(self, master):
         self.title("Delete Employee")
@@ -137,7 +139,7 @@ class DeleteEmployeeDialog(simpledialog.Dialog):
 
         self.result = id_number
 
-
+# modify car dialog
 class ModifyCarDialog(simpledialog.Dialog):
     def body(self, master):
         self.title("Modify Car")
@@ -155,7 +157,7 @@ class ModifyCarDialog(simpledialog.Dialog):
 
         self.result = id_number
 
-
+# delete car dialog
 class DeleteCarDialog(simpledialog.Dialog):
     def body(self, master):
         self.title("Delete Car")
@@ -195,6 +197,7 @@ class Application(tk.Tk):
 
         self.create_widgets()
 
+    # create widgets in the main window
     def create_widgets(self):
         # Create buttons for various actions
         add_employee_button = tk.Button(self, text="Add Employee", command=self.add_employee)
@@ -253,8 +256,8 @@ class Application(tk.Tk):
             if error_message:
                 messagebox.showerror("Error", error_message)
                 
-        def modify_employee(self):
-            dialog = ModifyEmployeeDialog(self)
+    def modify_employee(self):
+        dialog = ModifyEmployeeDialog(self)
         if dialog.result:
             id_number = dialog.result
             attribute = simpledialog.askstring("Modify Employee", "Enter attribute to modify (name, id_number, department, job_title, basic_salary, age, date_of_birth, passport_details):")
