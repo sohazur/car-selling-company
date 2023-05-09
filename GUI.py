@@ -1,5 +1,4 @@
 import pickle
-import os
 import tkinter as tk
 from tkinter import messagebox, simpledialog
 from Salesperson import Salesperson
@@ -107,20 +106,20 @@ class AddSaleDialog(simpledialog.Dialog):
 # Save data function
 def save_data(sales_management):
     with open("employees.pickle", "wb") as employee_file:
-        pickle.dump(sales_management.employees, employee_file)
+        pickle.dump(sales_management.get_employees(), employee_file)
 
     with open("cars.pickle", "wb") as car_file:
-        pickle.dump(sales_management.cars, car_file)
+        pickle.dump(sales_management.get_cars(), car_file)
 
     with open("sales.pickle", "wb") as sale_file:
-        pickle.dump(sales_management.sales, sale_file)
+        pickle.dump(sales_management.get_sales(), sale_file)
         
 
 class Application(tk.Tk):
     def __init__(self, sales_management):
         super().__init__()
         self.title("Car Sales Management")
-        self.geometry("400x200")
+        self.geometry("400x250")
 
         self.sales_management = sales_management
 
@@ -174,14 +173,14 @@ class Application(tk.Tk):
 
     def show_salaries(self):
         salaries = self.sales_management.calculate_salaries()
-        salary_text = "\n".join(f"{self.sales_management.employees[employee_ID].name}: ${salary:.2f}" for employee_ID, salary in salaries.items())
+        salary_text = "\n".join(f"{self.sales_management.get_employees()[employee_ID].get_name()}: ${salary:.2f}" for employee_ID, salary in salaries.items())
         messagebox.showinfo("Salaries", salary_text)
 
     def show_employee_details(self):
         employee_id = simpledialog.askstring("Employee Details", "Enter Employee ID:")
         try:
-            employee = self.sales_management.employees[employee_id]
-            details = f"Name: {employee.name}\nID: {employee.id_number}\nDepartment: {employee.department}\nJob Title: {employee.job_title}\nBasic Salary: ${employee.basic_salary}\nAge: {employee.age}\nDate of Birth: {employee.date_of_birth}\nPassport Details: {employee.passport_details}"
+            employee = self.sales_management.get_employees()[employee_id]
+            details = f"Name: {employee.get_name()}\nID: {employee.get_id_number()}\nDepartment: {employee.get_department()}\nJob Title: {employee.get_job_title()}\nBasic Salary: ${employee.get_basic_salary()}\nAge: {employee.get_age()}\nDate of Birth: {employee.get_date_of_birth()}\nPassport Details: {employee.get_passport_details()}"
             messagebox.showinfo("Employee Details", details)
         except KeyError:
             messagebox.showerror("Error", "Invalid Employee ID")
@@ -189,8 +188,8 @@ class Application(tk.Tk):
     def show_car_details(self):
         car_id = simpledialog.askstring("Car Details", "Enter Car ID:")
         try:
-            car = self.sales_management.cars[car_id]
-            details = f"Name: {car.name}\nID: {car.ID}\nPrice: ${car.price}\nType: {car.car_type}"
+            car = self.sales_management.get_cars()[car_id]
+            details = f"Name: {car.get_name()}\nID: {car.get_ID()}\nPrice: ${car.get_price()}\nType: {car.get_car_type()}"
             messagebox.showinfo("Car Details", details)
         except KeyError:
             messagebox.showerror("Error", "Invalid Car ID")
@@ -198,9 +197,10 @@ class Application(tk.Tk):
     def show_employee_sales(self):
         employee_id = simpledialog.askstring("Employee Sales", "Enter Employee ID:")
         try:
-            employee = self.sales_management.employees[employee_id]
+            employee = self.sales_management.get_employees()[employee_id]
             if isinstance(employee, Salesperson):
-                sales_details = "\n".join(f"Car: {sale.car.name} (ID: {sale.car.ID}), Sale Price: ${sale.sale_price}, Profit: ${sale.profit}" for sale in employee.sales)
+                sales_details = "\n".join(f"Car: {sale.get_car().get_name()} (ID: {sale.get_car().get_ID()}), Sale Price: ${sale.get_sale_price()}, Profit: ${sale.get_profit()}" for sale in employee.get_sales())
+                print(employee.get_sales())
                 if sales_details:
                     messagebox.showinfo("Employee Sales", sales_details)
                 else:
