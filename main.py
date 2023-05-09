@@ -10,19 +10,20 @@ def load_data():
 
     try:
         with open("employees.pickle", "rb") as employee_file:
-            sales_management.employees = pickle.load(employee_file)
+            sales_management.set_employees(pickle.load(employee_file))
 
         with open("cars.pickle", "rb") as car_file:
-            sales_management.cars = pickle.load(car_file)
+            sales_management.set_cars(pickle.load(car_file))
 
         with open("sales.pickle", "rb") as sale_file:
-            sales_management.sales = pickle.load(sale_file)
+            sales_management.set_sales(pickle.load(sale_file))
     except FileNotFoundError:
         pass
 
     return sales_management
 
 
+# Test cases
 def load_sample_data(sales_management):
     # Add employees
     if not (os.path.exists("employees.pickle") and os.path.exists("cars.pickle") and os.path.exists("sales.pickle")):
