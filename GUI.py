@@ -102,6 +102,76 @@ class AddSaleDialog(simpledialog.Dialog):
         sale_price = int(self.sale_price_entry.get())
         self.result = (employee_id, car_id, sale_price, None)
         
+class ModifyEmployeeDialog(simpledialog.Dialog):
+    def body(self, master):
+        self.title("Modify Employee")
+
+        tk.Label(master, text="ID:").grid(row=0)
+
+        self.id_entry = tk.Entry(master)
+
+        self.id_entry.grid(row=0, column=1)
+
+        return self.id_entry
+
+    def apply(self):
+        id_number = self.id_entry.get()
+
+        self.result = id_number
+
+
+class DeleteEmployeeDialog(simpledialog.Dialog):
+    def body(self, master):
+        self.title("Delete Employee")
+
+        tk.Label(master, text="ID:").grid(row=0)
+
+        self.id_entry = tk.Entry(master)
+
+        self.id_entry.grid(row=0, column=1)
+
+        return self.id_entry
+
+    def apply(self):
+        id_number = self.id_entry.get()
+
+        self.result = id_number
+
+
+class ModifyCarDialog(simpledialog.Dialog):
+    def body(self, master):
+        self.title("Modify Car")
+
+        tk.Label(master, text="ID:").grid(row=0)
+
+        self.id_entry = tk.Entry(master)
+
+        self.id_entry.grid(row=0, column=1)
+
+        return self.id_entry
+
+    def apply(self):
+        id_number = self.id_entry.get()
+
+        self.result = id_number
+
+
+class DeleteCarDialog(simpledialog.Dialog):
+    def body(self, master):
+        self.title("Delete Car")
+
+        tk.Label(master, text="ID:").grid(row=0)
+
+        self.id_entry = tk.Entry(master)
+
+        self.id_entry.grid(row=0, column=1)
+
+        return self.id_entry
+
+    def apply(self):
+        id_number = self.id_entry.get()
+
+        self.result = id_number
         
 # Save data function
 def save_data(sales_management):
@@ -135,6 +205,18 @@ class Application(tk.Tk):
 
         add_sale_button = tk.Button(self, text="Add Sale", command=self.add_sale)
         add_sale_button.pack(fill=tk.X)
+
+        modify_employee_button = tk.Button(self, text="Modify Employee", command=self.modify_employee)
+        modify_employee_button.pack(fill=tk.X)
+
+        modify_car_button = tk.Button(self, text="Modify Car", command=self.modify_car)
+        modify_car_button.pack(fill=tk.X)
+
+        delete_employee_button = tk.Button(self, text="Delete Employee", command=self.delete_employee)
+        delete_employee_button.pack(fill=tk.X)
+
+        delete_car_button = tk.Button(self, text="Delete Car", command=self.delete_car)
+        delete_car_button.pack(fill=tk.X)
 
         show_employee_details_button = tk.Button(self, text="Show Employee Details", command=self.show_employee_details)
         show_employee_details_button.pack(fill=tk.X)
@@ -170,6 +252,50 @@ class Application(tk.Tk):
             error_message = self.sales_management.add_sale(employee_id, car_id, sale_price)
             if error_message:
                 messagebox.showerror("Error", error_message)
+                
+        def modify_employee(self):
+            dialog = ModifyEmployeeDialog(self)
+        if dialog.result:
+            id_number = dialog.result
+            attribute = simpledialog.askstring("Modify Employee", "Enter attribute to modify (name, id_number, department, job_title, basic_salary, age, date_of_birth, passport_details):")
+            new_value = float(simpledialog.askstring("Modify Employee", "Enter new value:"))
+
+            error_message = self.sales_management.modify_employee(id_number, attribute, new_value)
+            if error_message:
+                messagebox.showerror("Error", error_message)
+
+    def delete_employee(self):
+        dialog = DeleteEmployeeDialog(self)
+        if dialog.result:
+            id_number = dialog.result
+
+            error_message = self.sales_management.delete_employee(id_number)
+            if error_message:
+                messagebox.showerror("Error", error_message)
+            else:
+                messagebox.showinfo("Delete Employee", "Employee successfully deleted.")
+
+    def modify_car(self):
+        dialog = ModifyCarDialog(self)
+        if dialog.result:
+            id_number = dialog.result
+            attribute = simpledialog.askstring("Modify Car", "Enter attribute to modify (name, id, price, car_type):")
+            new_value = simpledialog.askstring("Modify Car", "Enter new value:")
+
+            error_message = self.sales_management.modify_car(id_number, attribute, new_value)
+            if error_message:
+                messagebox.showerror("Error", error_message)
+
+    def delete_car(self):
+        dialog = DeleteCarDialog(self)
+        if dialog.result:
+            id_number = dialog.result
+
+            error_message = self.sales_management.delete_car(id_number)
+            if error_message:
+                messagebox.showerror("Error", error_message)
+            else:
+                messagebox.showinfo("Delete Car", "Car successfully deleted.")
 
     def show_salaries(self):
         salaries = self.sales_management.calculate_salaries()
