@@ -74,9 +74,61 @@ class SalesManagement:
             else:
                 return "Invalid Employee ID"
         except KeyError:
+            return "Invalid Employee/Car ID"
+    
+    def modify_employee(self, id_number, attribute, new_value):
+        try:
+            employee = self.get_employees()[id_number]
+            if attribute == "name":
+                employee.set_name(new_value)
+            elif attribute == "id_number":
+                employee.set_id_number(new_value)
+            elif attribute == "department":
+                employee.set_department(new_value)
+            elif attribute == "job_title":
+                employee.set_job_title(new_value)
+            elif attribute == "basic_salary":
+                employee.set_basic_salary(new_value)
+            elif attribute == "age":
+                employee.set_age(new_value)
+            elif attribute == "date_of_birth":
+                employee.set_date_of_birth(new_value)
+            elif attribute == "passport_details":
+                employee.set_passport_details(new_value)
+            else:
+                return "Invalid attribute"
+        except KeyError:
             return "Invalid Employee ID"
 
-    # Helper methods for finding manager for a given employee
+    def delete_employee(self, id_number):
+        try:
+            del self.get_employees()[id_number]
+        except KeyError:
+            return "Invalid Employee ID"
+
+    def modify_car(self, id_number, attribute, new_value):
+        try:
+            car = self.get_cars()[id_number]
+            if attribute == "name":
+                car.set_name(new_value)
+            elif attribute == "ID":
+                car.set_ID(new_value)
+            elif attribute == "price":
+                car.set_price(float(new_value))
+            elif attribute == "car_type":
+                car.set_car_type(new_value)
+            else:
+                return "Invalid attribute"
+        except KeyError:
+            return "Invalid Car ID"
+
+    def delete_car(self, id_number):
+        try:
+            del self.get_cars()[id_number]
+        except KeyError:
+            return "Invalid Car ID"
+
+    # finding manager for a given employee
     def find_manager(self, employee):
         for manager in self.get_employees().values():
             if isinstance(manager, Manager) and manager.get_department() == employee.get_department():
