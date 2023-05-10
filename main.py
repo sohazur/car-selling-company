@@ -2,7 +2,6 @@ import pickle
 import os
 from SalesManagement import SalesManagement
 from GUI import Application
-from datetime import date
 
 # Load data function
 def load_data():
@@ -27,12 +26,12 @@ def load_data():
 def load_sample_data(sales_management):
     # Add employees
     if not (os.path.exists("employees.pickle") and os.path.exists("cars.pickle") and os.path.exists("sales.pickle")):
-        sales_management.add_employee("Susan Meyers", "47899", "IT", "Manager", 37500, 35, date(1988, 5, 23),
+        sales_management.add_employee("Susan Meyers", "47899", "IT", "Manager", 37500, 35, '1991-03-12',
                                       "P12345678")
-        sales_management.add_employee("Mark Jones", "39119", "IT", "Salesperson", 26000, 28, date(1995, 9, 12),
+        sales_management.add_employee("Mark Jones", "39119", "IT", "Salesperson", 26000, 28, '1991-03-12',
                                       "P23456789")
         sales_management.add_employee("Joy Rogers", "81774", "Manufacturing", "Salesperson", 24000, 32,
-                                      date(1991, 6, 4), "P34567890")
+                                      '1991-03-12', "P34567890")
 
         # Add cars
         sales_management.add_car("Jazz", "VX3", 55000, "Hatch")

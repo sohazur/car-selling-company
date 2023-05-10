@@ -36,8 +36,8 @@ class SalesManagement:
         elif job_title.lower() == "salesperson":
             employee = Salesperson(name, id_number, department, job_title, basic_salary, age, date_of_birth, passport_details)
         else:
-            print("Invalid job title. Employee not added.")
-            return
+            employee = None
+            return "Job title must be either 'manager' or 'salesperson'"
         # Add employee to list of employees
         tmp = self.get_employees()
         tmp[id_number] = employee
@@ -58,6 +58,7 @@ class SalesManagement:
             employee = self.get_employees()[employee_id]
             car = self.get_cars()[car_id]
 
+            # Check if employee is a salesperson
             if isinstance(employee, Salesperson):
                 sale = Sale(employee, car, sale_price)
                 tmp = self.get_sales()
@@ -77,6 +78,7 @@ class SalesManagement:
             return "Invalid Employee/Car ID"
     
     def modify_employee(self, id_number, attribute, new_value):
+        # Error handling for invalid employee ID
         try:
             employee = self.get_employees()[id_number]
             if attribute == "name":
@@ -88,9 +90,15 @@ class SalesManagement:
             elif attribute == "job_title":
                 employee.set_job_title(new_value)
             elif attribute == "basic_salary":
-                employee.set_basic_salary(float(new_value))
+                try:
+                    employee.set_basic_salary(float(new_value))
+                except ValueError:
+                    return "basic salary should be a number"
             elif attribute == "age":
-                employee.set_age(new_value)
+                try:
+                    employee.set_age(int(new_value))
+                except ValueError:
+                    return "Age should be a number"
             elif attribute == "date_of_birth":
                 employee.set_date_of_birth(new_value)
             elif attribute == "passport_details":
@@ -101,12 +109,14 @@ class SalesManagement:
             return "Invalid Employee ID"
 
     def delete_employee(self, id_number):
+        # Error handling for invalid employee ID
         try:
             del self.get_employees()[id_number]
         except KeyError:
             return "Invalid Employee ID"
 
     def modify_car(self, id_number, attribute, new_value):
+        # Error handling for invalid car ID
         try:
             car = self.get_cars()[id_number]
             if attribute == "name":
@@ -114,7 +124,11 @@ class SalesManagement:
             elif attribute == "ID":
                 car.set_ID(new_value)
             elif attribute == "price":
-                car.set_price(float(new_value))
+                # Error handling for invalid price
+                try:
+                    car.set_price(float(new_value))
+                except ValueError:
+                    return "Car price should be a number"
             elif attribute == "car_type":
                 car.set_car_type(new_value)
             else:
@@ -130,6 +144,7 @@ class SalesManagement:
 
     # finding manager for a given employee
     def find_manager(self, employee):
+        # Check if employee is a manager
         for manager in self.get_employees().values():
             if isinstance(manager, Manager) and manager.get_department() == employee.get_department():
                 return manager
