@@ -191,7 +191,7 @@ class Application(tk.Tk):
     def __init__(self, sales_management):
         super().__init__()
         self.title("Car Sales Management")
-        self.geometry("400x250")
+        self.geometry("400x350")
 
         self.sales_management = sales_management
 
