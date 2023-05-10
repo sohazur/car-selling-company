@@ -88,7 +88,7 @@ class SalesManagement:
             elif attribute == "job_title":
                 employee.set_job_title(new_value)
             elif attribute == "basic_salary":
-                employee.set_basic_salary(new_value)
+                employee.set_basic_salary(float(new_value))
             elif attribute == "age":
                 employee.set_age(new_value)
             elif attribute == "date_of_birth":

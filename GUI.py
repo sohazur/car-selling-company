@@ -42,8 +42,8 @@ class AddEmployeeDialog(simpledialog.Dialog):
         id = self.id_entry.get()
         department = self.department_entry.get()
         job_title = self.job_title_entry.get()
-        basic_salary = int(self.basic_salary_entry.get())
-        age = int(self.age_entry.get())
+        basic_salary = float(self.basic_salary_entry.get())
+        age = self.age_entry.get()
         date_of_birth = self.date_of_birth_entry.get()
         passport_details = self.passport_details_entry.get()
 
@@ -74,7 +74,7 @@ class AddCarDialog(simpledialog.Dialog):
     def apply(self):
         name = self.name_entry.get()
         id = self.id_entry.get()
-        price = int(self.price_entry.get())
+        price = float(self.price_entry.get())
         car_type = self.type_entry.get()
         self.result = (name, id, price, car_type)
         
@@ -100,7 +100,7 @@ class AddSaleDialog(simpledialog.Dialog):
     def apply(self):
         employee_id = self.employee_id_entry.get()
         car_id = self.car_id_entry.get()
-        sale_price = int(self.sale_price_entry.get())
+        sale_price = float(self.sale_price_entry.get())
         self.result = (employee_id, car_id, sale_price, None)
 
 # modify employee dialog     
@@ -241,12 +241,18 @@ class Application(tk.Tk):
         if dialog.result:
             name, id_number, department, job_title, basic_salary, age, date_of_birth, passport_details = dialog.result
             self.sales_management.add_employee(name, id_number, department, job_title, basic_salary, age, date_of_birth, passport_details)
+            error_message = self.sales_management.add_employee(name, id_number, department, job_title, basic_salary, age, date_of_birth, passport_details)
+            if error_message:
+                messagebox.showerror("Error", error_message)
 
     def add_car(self):
         dialog = AddCarDialog(self)
         if dialog.result:
             name, id, price, car_type = dialog.result
             self.sales_management.add_car(name, id, price, car_type)
+            error_message = self.sales_management.add_car(name, id, price, car_type)
+            if error_message:
+                messagebox.showerror("Error", error_message)
 
     def add_sale(self):
         dialog = AddSaleDialog(self)
@@ -261,7 +267,7 @@ class Application(tk.Tk):
         if dialog.result:
             id_number = dialog.result
             attribute = simpledialog.askstring("Modify Employee", "Enter attribute to modify (name, id_number, department, job_title, basic_salary, age, date_of_birth, passport_details):")
-            new_value = float(simpledialog.askstring("Modify Employee", "Enter new value:"))
+            new_value = simpledialog.askstring("Modify Employee", "Enter new value:")
 
             error_message = self.sales_management.modify_employee(id_number, attribute, new_value)
             if error_message:
